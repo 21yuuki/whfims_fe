@@ -1,15 +1,14 @@
 <template>
-  <hello-world />
+  <navigation-component />
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+  import NavigationComponent from '@/components/NavigationComponent';
 
   export default {
-    name: 'HomePage',
-
+    name: 'HomeComponent',
     components: {
-      HelloWorld,
-    },
+      NavigationComponent
+    }
   }
 </script>

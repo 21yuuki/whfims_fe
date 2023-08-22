@@ -41,7 +41,6 @@ _axios.interceptors.response.use(
         // if(store.getters.getToken.length > 0 || store.getters.getToken !== null) {
         //   // Use refresh token here
         // } else {
-          // alert('wkwkw')
         await store.dispatch('destroySessionAction')
         // }
     }

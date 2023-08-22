@@ -45,7 +45,7 @@
     import mixins from '@/mixins/global'
 
     export default {
-        name: "LogIn",
+        name: "LoginComponent",
         data() {
             return {
                 loginData: {},
