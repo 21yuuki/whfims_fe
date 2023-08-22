@@ -42,6 +42,8 @@
 </template>
 
 <script>
+    import mixins from '@/mixins/global'
+
     export default {
         name: "LogIn",
         data() {
@@ -62,9 +64,11 @@
                     this.loginData.client_secret = process.env.VUE_APP_CLIENT_SECRET
                     
                     try {
-                        const response = await this.$axios.post('oauth/token', this.loginData)
+                        const token = await this.$axios.post('oauth/token', this.loginData)
+                        
+                        await this.$store.dispatch('storeTokenAction', token.data)
 
-                        this.$store.dispatch('storeTokenAction', response.data)
+                        await this.getCurrentUser()
 
                         this.$router.push({ name: 'home' })
                     } catch (e) {
@@ -72,6 +76,9 @@
                     }
                 }
             }
-        }
+        }, 
+        mixins: [
+            mixins
+        ]
     }
 </script>

@@ -2,14 +2,15 @@
 
 import Vue from 'vue';
 import axios from "axios";
+import store from '@/store'
 
 // Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL || process.env.apiUrl || '';
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters.getToken;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: process.env.VUE_APP_BASE_URL || process.env.apiUrl || ""
+  // baseURL: process.env.VUE_APP_BASE_URL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 };
@@ -33,8 +34,18 @@ _axios.interceptors.response.use(
     // Do something with response data
     return response;
   },
-  function(error) {
+  async error => {
     // Do something with response error
+    if(error.response.status === 401){
+        //check if store token has value
+        // if(store.getters.getToken.length > 0 || store.getters.getToken !== null) {
+        //   // Use refresh token here
+        // } else {
+          // alert('wkwkw')
+        await store.dispatch('destroySessionAction')
+        // }
+    }
+
     return Promise.reject(error);
   }
 );

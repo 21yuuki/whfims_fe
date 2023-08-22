@@ -4,12 +4,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-
-console.log(store)
+import mixins from '@/mixins/global'
 
 Vue.config.productionTip = false
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { 
     if(to.matched.some(record => record.meta.forAuth)) {
         if(!store.getters.getIsAuthenticated) {
             next({ name: 'login' })
@@ -28,6 +27,20 @@ router.beforeEach((to, from, next) => {
 });
 
 new Vue({
+    async created() {            
+        if(store.getters.getToken !== null) {
+            try {
+                const user = await this.getCurrentUser()
+                
+                store.dispatch('setUserDetailsAction', user)
+            } catch(err) {
+                router.push({name: 'login'})
+            }
+        }
+    },
+    mixins: [
+        mixins
+    ],
     router,
     store,
     vuetify,

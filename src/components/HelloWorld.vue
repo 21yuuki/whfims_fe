@@ -1,6 +1,10 @@
 <template>
   <v-container>
     <v-row class="text-center">
+      {{ userDetails }}
+
+      <v-btn @click="logout">Logout</v-btn>
+
       <v-col cols="12">
         <v-img
           :src="require('../assets/logo.svg')"
@@ -147,5 +151,19 @@
         },
       ],
     }),
+    methods: {
+      logout() {
+        this.$store.dispatch('destroySessionAction')
+        this.$router.push({ name: 'login' })
+      }
+    },
+    computed: {
+      token() {
+        return this.$store.getters.getToken
+      },
+      userDetails() {
+        return this.$store.getters.getUserDetails
+      }
+    }
   }
 </script>
