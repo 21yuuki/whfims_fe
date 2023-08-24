@@ -1,5 +1,5 @@
 <template>
-    <v-card height="100%" width="300">
+    <v-navigation-drawer>
         <v-list>
             <v-list-item>
                 <v-list-item-content>
@@ -16,10 +16,10 @@
         <v-list>
             <v-list-item link>
                 <v-list-item-icon>
-                    <v-icon>mdi-home</v-icon>
+                    <v-icon>mdi-view-dashboard</v-icon>
                 </v-list-item-icon>
 
-                <v-list-item-title>Home</v-list-item-title>
+                <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item>
 
             <v-list-group no-action sub-group>
@@ -29,13 +29,15 @@
                     </v-list-item-content>
                 </template>
 
-                <v-list-item v-for="([title, icon], i) in maintenance" :key="i" link>
-                    <v-list-item-icon>
-                        <v-icon v-text="icon"></v-icon>
-                    </v-list-item-icon>
+                <v-list-item-group>
+                    <v-list-item v-for="([title, icon], i) in maintenance" :key="i" link @click="returnComponent(title)">
+                        <v-list-item-icon>
+                            <v-icon v-text="icon"></v-icon>
+                        </v-list-item-icon>
 
-                    <v-list-item-title v-text="title"></v-list-item-title>
-                </v-list-item>
+                        <v-list-item-title v-text="title"></v-list-item-title>
+                    </v-list-item>
+                </v-list-item-group>
             </v-list-group>
 
             <v-list-item link @click="logoutBtnClicked">
@@ -48,12 +50,11 @@
         </v-list>
 
         <confirmation-modal-component :dialog="dialog" @closeDialog="closeDialog" />
-    </v-card>
+    </v-navigation-drawer>
 </template>
 
 <script>
-    import mixins from '@/mixins/global'
-    import ConfirmationModalComponent from '@/components/Modals/ConfirmationModalComponent';
+    import ConfirmationModalComponent from '@/components/Modals/ConfirmationModalComponent'
 
     export default {
         name: 'NavigationComponent', 
@@ -76,9 +77,6 @@
                 }
             }
         },
-        mixins: [
-            mixins
-        ],
         methods: {
             logoutBtnClicked() {
                 this.dialog = {
@@ -95,6 +93,9 @@
                 }
                 
                 this.dialog.open = false
+            },
+            async returnComponent(title) {
+                this.$emit('returnComponent', title)
             }
         },
         computed: {
