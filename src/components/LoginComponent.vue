@@ -14,7 +14,6 @@
                                 label="Email Address"
                                 :rules="[rules.required, rules.email]"
                                 oultined
-                                required
                             />
             
                             <v-text-field
@@ -23,7 +22,6 @@
                                 label="Password"
                                 :rules="[rules.required]"
                                 oultined
-                                required
                             />
             
                             <v-input v-if="invalidCreds"
@@ -49,10 +47,6 @@
         data() {
             return {
                 loginData: {},
-                rules: {
-                    required: (value) => !!value || 'Required.',
-                    email: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Please use a valid email address.'
-                },
                 invalidCreds: false
             }
         },
