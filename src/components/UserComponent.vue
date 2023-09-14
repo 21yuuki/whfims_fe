@@ -1,12 +1,6 @@
 <template>
     <v-container fluid>
-        <v-breadcrumbs large>
-            <v-breadcrumbs-item disabled>
-                Users
-            </v-breadcrumbs-item>
-        </v-breadcrumbs>
-        
-        <crud-table-component :tableData="tableData" @createItem="showFormCreateUser" @editItem="showFormEditUser" @deleteItem="deleteUser" class="mx-5" />
+        <crud-table-component :tableData="tableData" @createItem="showFormCreateUser" @editItem="showFormEditUser" @deleteItem="deleteUser" class="mx-5 my-5" />
         
         <create-or-edit-modal-component :formDetails="formDetails" @createOrUpdateItem="createOrUpdateUser">
             <template v-slot:form>
@@ -126,6 +120,7 @@
                 this.closeDialog()
             },
             showFormCreateUser() {
+                this.formData.id = 0
                 this.formDetails = {
                     open: true,
                     action: 'Create',

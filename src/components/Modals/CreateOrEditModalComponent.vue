@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center">
-        <v-dialog v-model="formDetails.open" :max-width="maxWidth">
+        <v-dialog v-model="form.open" :max-width="maxWidth" persistent>
             <v-card>
                 <v-card-title class="text-h5" color="orange">
                     {{  formTitle }}
@@ -12,7 +12,7 @@
 
                         <div class="text-right">
                             <v-btn text type="submit" dark color="primary" class="mr-1">Save</v-btn>
-                            <v-btn text dark color="red" @click="closeDialog(false)">Cancel</v-btn>
+                            <v-btn text dark color="red" @click="closeDialog">Cancel</v-btn>
                         </div>
                     </v-form>
                 </v-card-text>
@@ -33,19 +33,37 @@
                 default: '500'
             }
         },
+        data() {
+            return {
+                form: {}
+            }
+        },
         methods: {
             createOrUpdateItem() {
                 if(this.$refs.form.validate()) {
-                    this.closeDialog(true)
+                    this.$emit('createOrUpdateItem', true)
+                    this.form.open = false
                 }
             },
-            closeDialog(willSubmit) {
-                this.$emit('createOrUpdateItem', willSubmit)
+            closeDialog() {
+                this.form.open = false
+                this.$refs.form.reset()
             }
         },
         computed: {
             formTitle() {
-                return this.formDetails.action + ' ' + this.formDetails.for
+                return this.form.action + ' ' + this.form.for
+            },
+            isOpen() {
+                return this.form.open
+            }
+        },
+        watch: {
+            formDetails: {
+                deep: true,
+                handler(item) {
+                    this.form = JSON.parse(JSON.stringify(item))
+                }
             }
         }
     }

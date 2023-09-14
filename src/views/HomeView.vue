@@ -10,21 +10,25 @@
 
 <script>
   import NavigationComponent from '@/components/NavigationComponent'
+  import DashboardComponent from '@/components/DashboardComponent'
   import UserComponent from '@/components/UserComponent'
   import RoleComponent from '@/components/RoleComponent'
   import TableComponent from '@/components/TableComponent'
+  import CategoryComponent from '@/components/CategoryComponent'
 
   export default {
     name: 'HomeComponent',
     components: {
       NavigationComponent,
+      DashboardComponent,
       UserComponent,
       RoleComponent,
-      TableComponent
+      TableComponent,
+      CategoryComponent
     },
     data() {
       return {
-        loadComponent: UserComponent
+        loadComponent: DashboardComponent
       }
     },
     mounted() {
@@ -33,6 +37,10 @@
     methods: {
       returnComponent(component) {
         switch(component) {
+          case 'Dashboard':
+            this.loadComponent = DashboardComponent
+          break
+
           case 'Users':
             this.loadComponent = UserComponent
           break
@@ -43,6 +51,10 @@
           
           case 'Tables':
             this.loadComponent = TableComponent
+          break
+
+          case 'Categories':
+            this.loadComponent = CategoryComponent
           break
         }
       }

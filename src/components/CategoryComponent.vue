@@ -1,10 +1,10 @@
 <template>
     <v-container fluid>
-        <crud-table-component :tableData="tableData" @createItem="showFormCreateTable" @editItem="showFormEditTable" @deleteItem="deleteTable" class="mx-5 my-5" />
+        <crud-table-component :tableData="tableData" @createItem="showFormCreateCategory" @editItem="showFormEditCategory" @deleteItem="deleteCategory" class="mx-5 my-5" />
 
-        <create-or-edit-modal-component :formDetails="formDetails" @createOrUpdateItem="createOrUpdateTable">
+        <create-or-edit-modal-component :formDetails="formDetails" @createOrUpdateItem="createOrUpdateCategory">
             <template v-slot:form>
-                <v-text-field v-model="formData.identifier" label="Identifier" :rules="[rules.required]" />
+                <v-text-field v-model="formData.name" label="Category" :rules="[rules.required]" />
             </template>
         </create-or-edit-modal-component>
     </v-container>
@@ -16,7 +16,7 @@ import CrudTableComponent from '@/components/Tables/CrudTableComponent'
 import CreateOrEditModalComponent from '@/components/Modals/CreateOrEditModalComponent'
 
 export default {
-    name: 'TableComponent',
+    name: 'CategoryComponent',
     components: {
         CrudTableComponent,
         CreateOrEditModalComponent
@@ -25,45 +25,45 @@ export default {
         return {
             tableData: {
                 headers: [
-                    { text: 'Identifier', value: 'identifier' },
+                    { text: 'Category', value: 'name' },
                     { text: 'Actions', value: 'actions', sortable: false }
                 ],
                 items: [],
-                title: 'Tables',
-                btnName: 'Create Table'
+                title: 'Categories',
+                btnName: 'Create Category'
             },
             formDetails: {
                 open: false,
-                for: 'Table',
+                for: 'Category',
                 action: ''
             },
             formData: {}
         }
     },
     mounted() {
-        this.fetchAllTables()
+        this.fetchAllCategories()
     },
     methods: {
-        async fetchAllTables() {
+        async fetchAllCategories() {
             try {
-                this.tableData.items = (await this.$axios.get('api/tables/')).data
+                this.tableData.items = (await this.$axios.get('api/categories/')).data
             } catch (err) {
                 console.log(err)
             }
         },
-        async deleteTable(id) {
+        async deleteCategory(id) {
             try {
-                await this.$axios.delete(`api/tables/${id}`)
-                await this.fetchAllTables()
+                await this.$axios.delete(`api/categories/${id}`)
+                await this.fetchAllCategories()
             } catch (err) {
                 console.log(err)
             }
         },
-        async createOrUpdateTable(willSubmit) {
+        async createOrUpdateCategory(willSubmit) {
             if (willSubmit) {
                 try {
-                    await this.$axios.post('api/tables/', this.formData)
-                    await this.fetchAllTables()
+                    await this.$axios.post('api/categories/', this.formData)
+                    await this.fetchAllCategories()
                 } catch (err) {
                     console.log(err)
                 }
@@ -71,19 +71,19 @@ export default {
 
             this.closeDialog()
         },
-        showFormCreateTable() {
+        showFormCreateCategory() {
             this.formData.id = 0
             this.formDetails = {
                 open: true,
                 action: 'Create',
-                for: 'Table'
+                for: 'Category'
             }
         },
-        showFormEditTable(item) {
+        showFormEditCategory(item) {
             this.formDetails = {
                 open: true,
                 action: 'Edit',
-                for: 'Table',
+                for: 'Category',
             }
 
             this.formData = JSON.parse(JSON.stringify(item))
