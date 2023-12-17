@@ -2,7 +2,7 @@ export default {
     data() {
         return {
             rules: {
-                required: (value) => !!value || 'Required.',
+                required: v => !!v || 'Required.',
                 email: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Please use a valid email address.'
             }
         }

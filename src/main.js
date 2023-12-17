@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
         }
     } else if(to.matched.some(record => record.meta.forGuest)) {
         if(store.getters.getIsAuthenticated) {
-            next({ name: 'home' })
+            next({ name: 'dashboard' })
         } else {
             next()
         }

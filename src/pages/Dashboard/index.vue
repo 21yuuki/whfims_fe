@@ -5,8 +5,6 @@
                 Dashboard
             </v-breadcrumbs-item>
         </v-breadcrumbs>
-
-        
     </v-container>
 </template>
 

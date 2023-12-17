@@ -1,13 +1,14 @@
 <template>
-    <v-container fluid>
-        <crud-table-component :tableData="tableData" @createItem="showFormCreateCategory" @editItem="showFormEditCategory" @deleteItem="deleteCategory" class="mx-5 my-5" />
+    <div>
+        <crud-table-component :tableData="tableData" @createItem="showFormCreateTable" @editItem="showFormEditTable"
+            @deleteItem="deleteTable" class="mx-5 my-5" />
 
-        <create-or-edit-modal-component :formDetails="formDetails" @createOrUpdateItem="createOrUpdateCategory">
+        <create-or-edit-modal-component :formDetails="formDetails" @createOrUpdateItem="createOrUpdateTable">
             <template v-slot:form>
-                <v-text-field v-model="formData.name" label="Category" :rules="[rules.required]" />
+                <v-text-field v-model="formData.identifier" label="Identifier" :rules="[rules.required]" />
             </template>
         </create-or-edit-modal-component>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -16,7 +17,7 @@ import CrudTableComponent from '@/components/Tables/CrudTableComponent'
 import CreateOrEditModalComponent from '@/components/Modals/CreateOrEditModalComponent'
 
 export default {
-    name: 'CategoryComponent',
+    name: 'TableComponent',
     components: {
         CrudTableComponent,
         CreateOrEditModalComponent
@@ -25,45 +26,45 @@ export default {
         return {
             tableData: {
                 headers: [
-                    { text: 'Category', value: 'name' },
+                    { text: 'Identifier', value: 'identifier' },
                     { text: 'Actions', value: 'actions', sortable: false }
                 ],
                 items: [],
-                title: 'Categories',
-                btnName: 'Create Category'
+                title: 'Tables',
+                btnName: 'Create Table'
             },
             formDetails: {
                 open: false,
-                for: 'Category',
+                for: 'Table',
                 action: ''
             },
             formData: {}
         }
     },
     mounted() {
-        this.fetchAllCategories()
+        this.fetchAllTables()
     },
     methods: {
-        async fetchAllCategories() {
+        async fetchAllTables() {
             try {
-                this.tableData.items = (await this.$axios.get('api/categories/')).data
+                this.tableData.items = (await this.$axios.get('api/tables/')).data
             } catch (err) {
                 console.log(err)
             }
         },
-        async deleteCategory(id) {
+        async deleteTable(id) {
             try {
-                await this.$axios.delete(`api/categories/${id}`)
-                await this.fetchAllCategories()
+                await this.$axios.delete(`api/tables/${id}`)
+                await this.fetchAllTables()
             } catch (err) {
                 console.log(err)
             }
         },
-        async createOrUpdateCategory(willSubmit) {
+        async createOrUpdateTable(willSubmit) {
             if (willSubmit) {
                 try {
-                    await this.$axios.post('api/categories/', this.formData)
-                    await this.fetchAllCategories()
+                    await this.$axios.post('api/tables/', this.formData)
+                    await this.fetchAllTables()
                 } catch (err) {
                     console.log(err)
                 }
@@ -71,19 +72,19 @@ export default {
 
             this.closeDialog()
         },
-        showFormCreateCategory() {
+        showFormCreateTable() {
             this.formData.id = 0
             this.formDetails = {
                 open: true,
                 action: 'Create',
-                for: 'Category'
+                for: 'Table'
             }
         },
-        showFormEditCategory(item) {
+        showFormEditTable(item) {
             this.formDetails = {
                 open: true,
                 action: 'Edit',
-                for: 'Category',
+                for: 'Table',
             }
 
             this.formData = JSON.parse(JSON.stringify(item))

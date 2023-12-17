@@ -1,8 +1,8 @@
 <template>
-    <v-navigation-drawer>
+    <v-navigation-drawer app>
         <v-list>
             <v-list-item>
-                <v-list-item-content>
+                <v-list-item-content class="text-center">
                     <v-list-item-title class="text-h6">
                         {{ user.name }}
                     </v-list-item-title>
@@ -11,10 +11,8 @@
             </v-list-item>
         </v-list>
 
-        <v-divider></v-divider>
-
         <v-list>
-            <v-list-item link @click="returnComponent('Dashboard')">
+            <v-list-item link to="/dashboard">
                 <v-list-item-icon>
                     <v-icon>mdi-view-dashboard</v-icon>
                 </v-list-item-icon>
@@ -30,12 +28,12 @@
                 </template>
 
                 <v-list-item-group>
-                    <v-list-item v-for="([title, icon], i) in maintenance" :key="i" link @click="returnComponent(title)">
+                    <v-list-item v-for="(item, index) in maintenance" :key="index" link :to="item.link">
                         <v-list-item-icon>
-                            <v-icon v-text="icon"></v-icon>
+                            <v-icon v-text="item.icon"></v-icon>
                         </v-list-item-icon>
 
-                        <v-list-item-title v-text="title"></v-list-item-title>
+                        <v-list-item-title v-text="item.label"></v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
             </v-list-group>
@@ -48,15 +46,31 @@
                 </template>
 
                 <v-list-item-group>
-                    <v-list-item v-for="([title, icon], i) in reports" :key="i" link @click="returnComponent(title)">
+                    <v-list-item v-for="(item, index) in reports" :key="index" link :to="item.link">
                         <v-list-item-icon>
-                            <v-icon v-text="icon"></v-icon>
+                            <v-icon v-text="item.icon"></v-icon>
                         </v-list-item-icon>
 
-                        <v-list-item-title v-text="title"></v-list-item-title>
+                        <v-list-item-title v-text="item.label"></v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
             </v-list-group>
+
+            <v-list-item link to="/pos" active-class>
+                <v-list-item-icon>
+                    <v-icon>mdi-network-pos</v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-title>Point of Sales</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item link to="/orders">
+                <v-list-item-icon>
+                    <v-icon>mdi-cart-outline</v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-title>Orders</v-list-item-title>
+            </v-list-item>
 
             <v-list-item link @click="logoutBtnClicked">
                 <v-list-item-icon>
@@ -82,15 +96,43 @@
         data() {
             return {
                 maintenance: [
-                    ['Users', 'mdi-account-circle'],
-                    ['Roles', 'mdi-account-lock'],
-                    ['Tables', 'mdi-list-box-outline'],
-                    ['Categories', 'mdi-list-box-outline'],
-                    ['Products', 'mdi-list-box-outline']
+                    {
+                        label: 'Users',
+                        icon: 'mdi-account-circle',
+                        link: '/users'
+                    },
+                    {
+                        label: 'Roles',
+                        icon: 'mdi-account-lock',
+                        link: '/roles'
+                    },
+                    {
+                        label: 'Tables',
+                        icon: 'mdi-list-box-outline',
+                        link: '/tables'
+                    },
+                    {
+                        label: 'Categories',
+                        icon: 'mdi-list-box-outline',
+                        link: '/categories'
+                    },
+                    {
+                        label: 'Products',
+                        icon: 'mdi-list-box-outline',
+                        link: '/products'
+                    },
                 ],
                 reports: [
-                    ['Sales', 'mdi-list-box-outline'],
-                    ['Withdrawals', 'mdi-list-box-outline']
+                    {
+                        label: 'Sales',
+                        icon: 'mdi-list-box-outline',
+                        link: '/sales'
+                    },
+                    {
+                        label: 'Withdrawals',
+                        icon: 'mdi-list-box-outline',
+                        link: '/withdrawals'
+                    }
                 ],
                 dialog: {
                     open: false,

@@ -1,13 +1,14 @@
 <template>
-    <v-container fluid>
-        <crud-table-component :tableData="tableData" @createItem="showFormCreateTable" @editItem="showFormEditTable" @deleteItem="deleteTable" class="mx-5 my-5" />
+    <div>
+        <crud-table-component :tableData="tableData" @createItem="showFormCreateRole" @editItem="showFormEditRole"
+            @deleteItem="deleteRole" class="mx-5 my-5" />
 
-        <create-or-edit-modal-component :formDetails="formDetails" @createOrUpdateItem="createOrUpdateTable">
+        <create-or-edit-modal-component :formDetails="formDetails" @createOrUpdateItem="createOrUpdateRole">
             <template v-slot:form>
-                <v-text-field v-model="formData.identifier" label="Identifier" :rules="[rules.required]" />
+                <v-text-field v-model="formData.name" label="Role" :rules="[rules.required]" />
             </template>
         </create-or-edit-modal-component>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -16,7 +17,7 @@ import CrudTableComponent from '@/components/Tables/CrudTableComponent'
 import CreateOrEditModalComponent from '@/components/Modals/CreateOrEditModalComponent'
 
 export default {
-    name: 'TableComponent',
+    name: 'RoleComponent',
     components: {
         CrudTableComponent,
         CreateOrEditModalComponent
@@ -25,45 +26,45 @@ export default {
         return {
             tableData: {
                 headers: [
-                    { text: 'Identifier', value: 'identifier' },
+                    { text: 'Role', value: 'name' },
                     { text: 'Actions', value: 'actions', sortable: false }
                 ],
                 items: [],
-                title: 'Tables',
-                btnName: 'Create Table'
+                title: 'Roles',
+                btnName: 'Create Role'
             },
             formDetails: {
                 open: false,
-                for: 'Table',
+                for: 'Role',
                 action: ''
             },
             formData: {}
         }
     },
     mounted() {
-        this.fetchAllTables()
+        this.fetchAllRoles()
     },
     methods: {
-        async fetchAllTables() {
+        async fetchAllRoles() {
             try {
-                this.tableData.items = (await this.$axios.get('api/tables/')).data
+                this.tableData.items = (await this.$axios.get('api/roles/')).data
             } catch (err) {
                 console.log(err)
             }
         },
-        async deleteTable(id) {
+        async deleteRole(id) {
             try {
-                await this.$axios.delete(`api/tables/${id}`)
-                await this.fetchAllTables()
+                await this.$axios.delete(`api/roles/${id}`)
+                await this.fetchAllRoles()
             } catch (err) {
                 console.log(err)
             }
         },
-        async createOrUpdateTable(willSubmit) {
+        async createOrUpdateRole(willSubmit) {
             if (willSubmit) {
                 try {
-                    await this.$axios.post('api/tables/', this.formData)
-                    await this.fetchAllTables()
+                    await this.$axios.post('api/roles/', this.formData)
+                    await this.fetchAllRoles()
                 } catch (err) {
                     console.log(err)
                 }
@@ -71,19 +72,19 @@ export default {
 
             this.closeDialog()
         },
-        showFormCreateTable() {
+        showFormCreateRole() {
             this.formData.id = 0
             this.formDetails = {
                 open: true,
                 action: 'Create',
-                for: 'Table'
+                for: 'Role'
             }
         },
-        showFormEditTable(item) {
+        showFormEditRole(item) {
             this.formDetails = {
                 open: true,
                 action: 'Edit',
-                for: 'Table',
+                for: 'Role',
             }
 
             this.formData = JSON.parse(JSON.stringify(item))

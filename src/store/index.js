@@ -9,7 +9,8 @@ export default new Vuex.Store({
     tokenExpiry: localStorage.getItem('tokenExpiry') || null,
     refreshToken: localStorage.getItem('refreshToken') || null,
     isAuthenticated: localStorage.getItem('isAuthenticated') || 0,
-    userDetails: {}
+    userDetails: {},
+    cart: []
   },
   getters: {
     getToken: state => {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     getUserDetails: state => {
       return state.userDetails
+    },
+    getCartItems: state => {
+      return state.cart
     }
   },
   mutations: {
@@ -70,6 +74,12 @@ export default new Vuex.Store({
     },
     setUserDetails(state, userDetails) {
       state.userDetails = userDetails
+    },
+    setCartItems(state, cartItems) {
+      state.cart = cartItems
+    },
+    removeCartItem(state, index) {
+      state.cart.splice(index, 1)
     }
   },
   actions: {
@@ -90,6 +100,12 @@ export default new Vuex.Store({
     },
     async setUserDetailsAction(context, userDetails) {
       context.commit('setUserDetails', userDetails)
+    },
+    async setCartItemsAction(context, cartItems) {
+      context.commit('setCartItems', cartItems)
+    },
+    removeCartItemAction(context, index) {
+      context.commit('removeCartItem', index)
     }
   },
   modules: {

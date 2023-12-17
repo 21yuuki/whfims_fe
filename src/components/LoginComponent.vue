@@ -64,7 +64,7 @@
 
                         await this.getCurrentUser()
 
-                        this.$router.push({ name: 'home' })
+                        this.$router.push({ name: 'dashboard' })
                     } catch (e) {
                         this.invalidCreds = true;
                     }
