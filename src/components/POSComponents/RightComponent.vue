@@ -58,8 +58,7 @@
 
                 <v-col md="5">
                     <div class="mx-1 font-v-card">
-                        {{ item.product_name }} <br />
-                        {{ '₱' + item.product_price }}    
+                        {{ item.product_name }} @ {{ '₱' + item.product_price }}    
                     </div>
                 </v-col>
 
@@ -164,8 +163,12 @@
         },
         mounted() {
             this.fetchAllTables()
+            this.clearRightComponentOnMount()
         },
         methods: {
+            clearRightComponentOnMount() {
+                this.$store.dispatch('setCartItemsAction', [])
+            },
             async fetchAllTables() {
                 try {
                     this.availableTables = (await this.$axios.get('api/tables/availableTables')).data
@@ -203,8 +206,8 @@
                     }
     
                     try {
-                        await this.$axios.post('api/orders/', data)
-                        this.$store.dispatch('setCartItemsAction', []);
+                        await this.$axios.post('api/orders/saveOrderAndOrderItems', data)
+                        this.clearRightComponentOnMount()
                     } catch (err) {
                         console.log(err)
                     }

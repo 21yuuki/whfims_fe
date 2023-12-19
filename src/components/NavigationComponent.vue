@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer app>
+    <v-navigation-drawer app v-model="drawer">
         <v-list>
             <v-list-item>
                 <v-list-item-content class="text-center">
@@ -92,6 +92,11 @@
         name: 'NavigationComponent', 
         components: {
             ConfirmationModalComponent
+        },
+        props: {
+            drawer: {
+                type: Boolean
+            }
         },
         data() {
             return {

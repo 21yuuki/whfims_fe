@@ -12,6 +12,10 @@
     position: absolute !important
 }
 
+.bottom-0 {
+    bottom: 0 !important
+}
+
 .top-75 {
     top: 75% !important;
 }

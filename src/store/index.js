@@ -10,7 +10,8 @@ export default new Vuex.Store({
     refreshToken: localStorage.getItem('refreshToken') || null,
     isAuthenticated: localStorage.getItem('isAuthenticated') || 0,
     userDetails: {},
-    cart: []
+    cart: [],
+    orderDetails: []
   },
   getters: {
     getToken: state => {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     getCartItems: state => {
       return state.cart
+    },
+    getOrderDetails: state => {
+      return state.orderDetails
     }
   },
   mutations: {
@@ -80,6 +84,9 @@ export default new Vuex.Store({
     },
     removeCartItem(state, index) {
       state.cart.splice(index, 1)
+    },
+    setOrderDetails(state, orderDetails) {
+      state.orderDetails = orderDetails
     }
   },
   actions: {
@@ -106,6 +113,9 @@ export default new Vuex.Store({
     },
     removeCartItemAction(context, index) {
       context.commit('removeCartItem', index)
+    },
+    setOrderDetailsAction(context, orderDetails) {
+      context.commit('setOrderDetails', orderDetails)
     }
   },
   modules: {

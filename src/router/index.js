@@ -8,6 +8,7 @@ import Tables from '@/pages/Tables/index.vue'
 import Categories from '@/pages/Categories/index.vue'
 import Products from '@/pages/Products/index.vue'
 import PointOfSales from '@/pages/PointOfSales/index.vue'
+import Orders from '@/pages/Orders/index.vue'
 
 Vue.use(VueRouter)
 
@@ -72,6 +73,14 @@ const routes = [
     path: '/pos',
     name: 'pos',
     component: PointOfSales,
+    meta: {
+      forAuth: true
+    }
+  },
+  {
+    path: '/orders',
+    name: 'orders',
+    component: Orders,
     meta: {
       forAuth: true
     }
